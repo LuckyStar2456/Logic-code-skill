@@ -1,20 +1,21 @@
 # Logic-code Skill
 
-一个强大的代码审查和转写技能，帮助开发人员理解复杂代码逻辑。
+一个强大的代码审查和转写技能，支持多个 AI 智能体平台。
 
 ## 功能特性
 
 ### 1. 代码审查
-- 📊 **圈复杂度分析**：使用AST精确计算代码复杂度
+- 📊 **圈复杂度分析**：使用 AST 精确计算代码复杂度
 - 🔍 **函数分析**：详细的函数/方法级别分析
 - 📝 **代码风格检查**：识别风格问题和改进建议
 - 💡 **重构建议**：自动生成代码改进建议
 - 📋 **报告生成**：生成易读的分析报告
 
-### 2. 代码转写
+### 2. 代码转写（带意图分析）
 - 🔄 **代码转自然语言**：将代码转换为逻辑化的自然语言描述
+- 🎯 **意图识别**：分析代码的业务意图和目的
 - 🌐 **多语言支持**：支持 Python、JavaScript、Java、Go 等多种语言
-- 📖 **意图理解**：理解代码意图并生成清晰的描述
+- 📖 **上下文理解**：结合项目上下文推断代码用途
 
 ### 3. 项目级转写（镜像映射）
 - 🗂️ **目录扫描**：自动扫描项目目录结构
@@ -22,24 +23,52 @@
 - 📦 **批量转写**：批量转写所有代码文件
 - 📄 **Markdown输出**：生成格式化的 Markdown 文档
 
+## 支持的平台
+
+| 平台 | 状态 | 说明 |
+|------|------|------|
+| ✅ **Trae** | 原生支持 | 通过 `.trae/skills/` 目录集成 |
+| ✅ **LangChain** | 原生支持 | 提供 LangChain Tools |
+| ✅ **OpenAI 插件** | 原生支持 | 提供插件 manifest 和 API |
+| ✅ **Claude Code** | 原生支持 | 提供 Claude 兼容接口 |
+| ✅ **Cursor** | 原生支持 | 提供 Cursor IDE 兼容接口 |
+| ✅ **Codex/Copilot** | 原生支持 | 提供函数调用格式 |
+| ✅ **REST API** | 原生支持 | 提供 FastAPI 服务 |
+
 ## 项目结构
 
 ```
-my-skill-project/
-├── .trae/
+logic-code-skill/
+├── core/                    # 核心模块（纯 Python）
+│   ├── __init__.py          # 核心入口
+│   ├── analyzer.py          # 代码分析器
+│   ├── transcriber.py       # 代码转写器
+│   └── project.py           # 项目级转写
+├── adapters/                # 平台适配器
+│   ├── __init__.py          # 适配器入口
+│   ├── trae.py              # Trae 适配器
+│   ├── langchain.py         # LangChain 适配器
+│   ├── openai.py            # OpenAI 插件适配器
+│   ├── claude.py            # Claude 适配器
+│   ├── cursor.py            # Cursor 适配器
+│   └── codex.py             # Codex 适配器
+├── api/                     # REST API 服务
+│   ├── __init__.py          # API 入口
+│   └── main.py              # FastAPI 应用
+├── .trae/                   # Trae 技能配置
 │   └── skills/
 │       └── Logic-code/
-│           └── SKILL.md          # 技能定义文件
-├── skill/
-│   ├── __init__.py               # 核心技能代码
-│   └── skill.json                # 技能配置
-├── scripts/
-│   ├── install_skill.py          # 安装脚本
-│   └── package_skill.py          # 打包脚本
-├── examples/
-│   └── example_usage.py          # 使用示例
-├── README.md                     # 项目文档
-└── package.json                  # 项目元数据
+│           └── SKILL.md
+├── skill/                   # 兼容旧版的技能代码
+│   ├── __init__.py
+│   └── skill.json
+├── scripts/                 # 辅助脚本
+│   ├── install_skill.py
+│   └── package_skill.py
+├── examples/                # 使用示例
+│   └── example_usage.py
+├── README.md
+└── package.json
 ```
 
 ## 安装
