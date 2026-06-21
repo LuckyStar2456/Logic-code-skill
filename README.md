@@ -87,10 +87,20 @@ result = analyze(code)
 print(f"平均复杂度: {result['complexity']['average']}")
 print(f"最高复杂度: {result['complexity']['highest']}")
 
-# 代码转写
-transcription = transcribe_code(code)
+# 代码转写（带意图分析）
+context = {
+    'config': {
+        'language': 'auto',
+        'project_context': '2D游戏引擎碰撞检测系统'
+    }
+}
+transcription = transcribe_code(code, context)
 print(transcription['natural_language'])
 # 输出：
+# 【用途推断】此代码可能用于：坐标碰撞检测
+# 
+# 在方法 complex_function 中比较 x > y、z < 10，返回结果 x + y、x - y、z * 2。
+# 
 # 定义一个名为 complex_function 的函数，接受参数：x, y, z
 #     如果 x > y：
 #         如果 z < 10：
@@ -113,7 +123,8 @@ context = {
         'min_complexity_threshold': 10,  # 复杂度警告阈值
         'enable_suggestions': True,       # 启用重构建议
         'language': 'auto',               # 目标语言（auto/python/javascript/java/go）
-        'mode': 'review'                  # 操作模式（review/transcribe）
+        'mode': 'review',                 # 操作模式（review/transcribe）
+        'project_context': '游戏引擎'      # 项目上下文，用于意图分析
     }
 }
 
@@ -155,19 +166,45 @@ result = analyze(code, context)
 
 ### transcribe_code(code, context)
 
-将代码转写为自然语言描述。
+将代码转写为自然语言描述，包含意图分析和上下文推断。
+
+**参数：**
+- `code` (str): 要转写的源代码
+- `context` (dict, optional): 配置选项，包括：
+  - `language`: 目标语言（auto/python/javascript/java/go）
+  - `project_context`: 项目上下文描述，用于意图分析
 
 **返回值：**
 ```python
 {
     'success': bool,
-    'natural_language': str,
-    'detected_language': str,
+    'natural_language': str,      # 完整的自然语言描述（包含意图、用途、转写）
+    'detected_language': str,     # 检测到的编程语言
     'functions': [{
         'name': str,
-        'transcription': str
-    }]
+        'transcription': str,     # 函数代码转写
+        'intent': str,            # 函数意图描述
+        'context': str            # 函数用途推断
+    }],
+    'intent_summary': str,        # 意图汇总
+    'context_analysis': str       # 项目上下文分析
 }
+```
+
+**示例输出：**
+```
+【用途推断】此代码可能用于：坐标碰撞检测
+
+在方法 check_collision 中比较 x > y、z < 10，返回结果 x + y、x - y、z * 2。
+
+定义一个名为 check_collision 的函数，接受参数：x, y, z
+    如果 x > y：
+        如果 z < 10：
+            返回 x + y
+        else：
+            返回 x - y
+    else：
+        返回 z * 2
 ```
 
 ### transcribe_project(project_path, output_base_path, context)
