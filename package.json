@@ -1,0 +1,11 @@
+{
+  "name": "my-skill-project",
+  "version": "1.0.0",
+  "description": "Custom skill project for Logic Code",
+  "scripts": {
+    "test": "python -m pytest tests/",
+    "package": "python scripts/package_skill.py",
+    "install": "python scripts/install_skill.py"
+  },
+  "dependencies": {}
+}

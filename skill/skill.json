@@ -1,0 +1,54 @@
+{
+  "name": "Logic-code",
+  "description": "具备代码审查能力，同时为开发人员提供将代码转写成逻辑化自然语言的功能",
+  "version": "1.0.0",
+  "author": "Logic Code Team",
+  "category": "analysis",
+  "entry_point": "transcribe_project",
+  "entry_points": {
+    "analyze": "代码复杂度审查",
+    "transcribe_code": "单文件代码转写",
+    "transcribe_project": "项目级转写（镜像映射）"
+  },
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "min_complexity_threshold": {
+        "type": "integer",
+        "default": 10,
+        "description": "Minimum complexity threshold for warnings"
+      },
+      "enable_suggestions": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable automated refactoring suggestions"
+      },
+      "language": {
+        "type": "string",
+        "default": "auto",
+        "description": "Target programming language (auto/python/javascript/java/go)"
+      },
+      "mode": {
+        "type": "string",
+        "default": "review",
+        "description": "Operation mode: 'review' for code review, 'transcribe' for code-to-text conversion"
+      },
+      "output_base_path": {
+        "type": "string",
+        "default": "logic_code/",
+        "description": "Output base path for project transcription"
+      }
+    },
+    "required": []
+  },
+  "supported_extensions": [
+    ".py", ".js", ".jsx", ".ts", ".tsx", ".java", ".go", ".rs",
+    ".cpp", ".c", ".h", ".hpp", ".cs", ".rb", ".php", ".swift",
+    ".kt", ".scala", ".r", ".lua", ".pl", ".sh", ".bash"
+  ],
+  "ignored_directories": [
+    "node_modules", ".git", "__pycache__", "venv", ".venv",
+    "env", ".env", "build", "dist", ".idea", ".vscode",
+    "bin", "obj", "target", ".cache", ".pytest_cache"
+  ],
+  "enabled": true
